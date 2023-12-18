@@ -1,0 +1,21 @@
+{
+  "name": "express-firebase-project",
+  "version": "1.0.0",
+  "description": "Node.js Express app with Firebase Firestore",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "express",
+    "firebase",
+    "firestore"
+  ],
+  "author": "aarushi",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.0.0"
+  }
+}
