@@ -34,6 +34,14 @@ router.post('/saveUserInfo', async (req, res) => {
   }
 });
 
+// Endpoint to check global variables
+router.get('/checkVariables', (req, res) => {
+  res.json({
+    user_logged_in,
+    user_logged_in_id,
+  });
+});
+
 // Add more user-related routes if needed
 
 module.exports = { router, user_logged_in, user_logged_in_id };
