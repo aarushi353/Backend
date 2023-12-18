@@ -1,3 +1,4 @@
+// models/CartItem.js
 const admin = require('firebase-admin');
 const db = admin.firestore();
 
@@ -15,18 +16,18 @@ const itemPrices = {
 };
 
 class CartItem {
-  static async updateCartItem(userId, itemName) {
+  static async updateCartItem(userId, itemName, Qty) {
     try {
-      const userRef = db.collection('users').doc(userId);
+      const userRef = db.collection('cart').doc(userId);
       const cartItemRef = userRef.collection('items').doc(itemName);
 
       const cartItemDoc = await cartItemRef.get();
 
       if (cartItemDoc.exists) {
         const currentQty = cartItemDoc.data().Qty || 0;
-        await cartItemRef.update({ Qty: currentQty + 1 });
+        await cartItemRef.update({ Qty: currentQty + Qty });
       } else {
-        const itemPrice = itemPrices[itemName] || 10; 
+        const itemPrice = itemPrices[itemName] || 10;
         await cartItemRef.set({ Qty: 1, price: itemPrice });
       }
 
