@@ -5,8 +5,8 @@ const InventoryItem = require('../models/InventoryItem');
 
 router.post('/updateInventoryItem', async (req, res) => {
   try {
-    const { itemName, Qty } = req.body;
-    const result = await InventoryItem.updateInventoryItem(itemName, Qty);
+    const { itemName } = req.body;
+    const result = await InventoryItem.updateInventoryItem(itemName);
     res.json(result);
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message });
