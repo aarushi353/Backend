@@ -1,11 +1,10 @@
-// models/InventoryItem.js
 const admin = require('firebase-admin');
 const db = admin.firestore();
 
 class InventoryItem {
   static async updateInventoryItem(itemName, Qty) {
     try {
-      const inventoryItemRef = db.collection('inventoryItems').doc(itemName);
+      const inventoryItemRef = db.collection('inventory').doc(itemName);
 
       const inventoryItemDoc = await inventoryItemRef.get();
 

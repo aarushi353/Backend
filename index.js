@@ -29,4 +29,3 @@ app.use("/home", home);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
