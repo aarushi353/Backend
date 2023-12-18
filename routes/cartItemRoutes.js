@@ -6,7 +6,8 @@ const CartItem = require('../models/CartItem');
 module.exports = function(user_logged_in_id) {
   router.post('/updateCartItem', async (req, res) => {
     try {
-      const { itemName, Qty } = req.body;
+      const { itemName } = req.body;
+      const Qty = req.body.Qty;  // Corrected line
       const result = await CartItem.updateCartItem(user_logged_in_id, itemName, Qty);
       res.json(result);
     } catch (error) {
