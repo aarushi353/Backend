@@ -11,7 +11,7 @@ admin.initializeApp({
 
 const db = admin.firestore();
 const app = express();
-const port = 3000; 
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,11 +19,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const userRoutes = require('./routes/userRoutes');
 const cartItemRoutes = require('./routes/cartItemRoutes');
 const inventoryItemRoutes = require('./routes/inventoryItemRoutes');
+const home = require("./routes/home");
 
 app.use('/user', userRoutes);
 app.use('/cartItem', cartItemRoutes);
 app.use('/inventoryItem', inventoryItemRoutes);
+app.use("/home", home);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
