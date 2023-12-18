@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const { router: userRoutes, user_logged_in, user_logged_in_id } = require('./routes/userRoutes');
-const cartItemRoutes = require('./routes/cartItemRoutes')("7uc72mWfgPRV0kQvRbmP"); // Pass user_logged_in_id to cartItemRoutes
+const cartItemRoutes = require('./routes/cartItemRoutes')();
 const inventoryItemRoutes = require('./routes/inventoryItemRoutes');
 const home = require('./routes/home');
 

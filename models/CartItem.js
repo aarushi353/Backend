@@ -2,6 +2,8 @@
 const admin = require('firebase-admin');
 const db = admin.firestore();
 
+let userid = null;
+
 const itemPrices = {
   'Parle-g': 10,
   'Britannia Nutrichoice': 20,
@@ -16,9 +18,22 @@ const itemPrices = {
 };
 
 class CartItem {
-  static async updateCartItem(userId, itemName, Qty) {
+  static async updateCartItem(itemName, Qty) {
     try {
-      const userRef = db.collection('cart').doc(userId);
+      const usersCollection = db.collection('users');
+      const querySnapshot = await usersCollection.where('isLoggedIn', '==', true).get();
+
+      if (!querySnapshot.empty) {
+        // Take the first user from the result (you may want to add additional logic if needed)
+        const loggedInUser = querySnapshot.docs[0];
+        userid = loggedInUser.id; // Document ID is the userId
+      }
+
+      if (!userid) {
+        return { status: 'error', message: 'No user is currently logged in.' };
+      }
+
+      const userRef = db.collection('cart').doc(userid);
 
       // Retrieve existing items array or initialize as an empty array
       const userDoc = await userRef.get();
