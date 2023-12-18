@@ -17,8 +17,7 @@ class InventoryItem {
         currentQty = data.Qty || 0;
       }
 
-      // Update the inventory item with the new quantity
-      await inventoryItemRef.set({ Qty: currentQty + Qty });
+      await inventoryItemRef.set({ Qty: currentQty - Qty });
 
       return { status: 'success' };
     } catch (error) {
