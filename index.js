@@ -16,15 +16,15 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const userRoutes = require('./routes/userRoutes');
+const { router: userRoutes, user_logged_in, user_logged_in_id } = require('./routes/userRoutes');
 const cartItemRoutes = require('./routes/cartItemRoutes');
 const inventoryItemRoutes = require('./routes/inventoryItemRoutes');
-const home = require("./routes/home");
+const home = require('./routes/home');
 
 app.use('/user', userRoutes);
 app.use('/cartItem', cartItemRoutes);
 app.use('/inventoryItem', inventoryItemRoutes);
-app.use("/home", home);
+app.use('/home', home);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
