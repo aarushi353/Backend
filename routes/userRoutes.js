@@ -8,27 +8,34 @@ const db = admin.firestore();
 let user_logged_in = null;
 let user_logged_in_id = null;
 
-// Middleware to update global variables
-router.use((req, res, next) => {
-  const { name, userId } = req.body;
+// // Middleware to update global variables
+// router.use((req, res, next) => {
+//   const { name, userId } = req.body;
 
-  // Update global variables if name and userId are present in the request body
-  if (name) {
-    user_logged_in = name;
-  }
-  if (userId) {
-    user_logged_in_id = userId;
-  }
+//   // Update global variables if name and userId are present in the request body
+//   if (name) {
+//     user_logged_in = name;
+//   }
+//   if (userId) {
+//     user_logged_in_id = userId;
+//   }
 
-  next();
-});
+//   next();
+// });
 
 router.post('/saveUserInfo', async (req, res) => {
   try {
     const { userId, name } = req.body;
     await db.collection('users').doc(userId).set({ name });
+    
+    if (name) {
+      user_logged_in = name;
+    }
+    if (userId) {
+      user_logged_in_id = userId;
+    }
 
-    res.json({ status: 'success', message: `User ${name} information updated successfully.` });
+    res.json({ status: 'success', message: `User ${user_logged_in} information updated successfully.` });
   } catch (error) {
     res.status(500).json({ status: 'error', message: error.message });
   }
