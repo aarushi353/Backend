@@ -19,19 +19,27 @@ class CartItem {
   static async updateCartItem(userId, itemName, Qty) {
     try {
       const userRef = db.collection('cart').doc(userId);
-      const cartItemRef = userRef.collection('items').doc(itemName);
 
-      const cartItemDoc = await cartItemRef.get();
+      // Retrieve existing items array or initialize as an empty array
+      const userDoc = await userRef.get();
+      const existingItems = userDoc.data()?.items || [];
 
-      if (cartItemDoc.exists) {
-        const currentQty = cartItemDoc.data().Qty || 0;
-        await cartItemRef.update({ Qty: currentQty + Qty });
+      // Check if the item already exists in the array
+      const existingItemIndex = existingItems.findIndex(item => item.itemName === itemName);
+
+      if (existingItemIndex !== -1) {
+        // Update quantity if the item already exists
+        existingItems[existingItemIndex].Qty += Qty;
       } else {
+        // Add a new item to the array
         const itemPrice = itemPrices[itemName] || 10;
-        await cartItemRef.set({ Qty: 1, price: itemPrice });
+        existingItems.push({ itemName, price: itemPrice, Qty });
       }
 
-      return { status: 'success' };
+      // Save the updated items array to the user document
+      await userRef.set({ items: existingItems }, { merge: true });
+
+      return { status: 'success', items: existingItems };
     } catch (error) {
       console.error(error);
       return { status: 'error', message: error.message };
