@@ -1,22 +1,24 @@
+// models/InventoryItem.js
 const admin = require('firebase-admin');
 const db = admin.firestore();
 
 class InventoryItem {
-  static async updateInventoryItem(itemName) {
+  static async updateInventoryItem(itemName, Qty) {
     try {
       const inventoryItemRef = db.collection('inventory').doc(itemName);
 
-      // Get the current quantity from the database
+      // Get the current inventory item
       const inventoryItemDoc = await inventoryItemRef.get();
-      let currentQty = 0;
 
+      // Extract the current quantity (if it exists)
+      let currentQty = 0;
       if (inventoryItemDoc.exists) {
         const data = inventoryItemDoc.data();
         currentQty = data.Qty || 0;
       }
 
-      // Update the quantity by incrementing it
-      await inventoryItemRef.set({ Qty: currentQty + 1 });
+      // Update the inventory item with the new quantity
+      await inventoryItemRef.set({ Qty: currentQty + Qty });
 
       return { status: 'success' };
     } catch (error) {
